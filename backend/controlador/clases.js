@@ -13,6 +13,7 @@ class ControladorClases {
     }
 
     agregarClase = async (req, res) => {
+        
         if (req.body) {
             const clase = req.body
             const claseAgregada = await this.servicio.agregarClase(clase)

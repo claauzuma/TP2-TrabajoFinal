@@ -20,29 +20,38 @@ class Servicio {
     agregarClase = async clase => {
 
         const res = validarClase(clase)
-        if (res.result) {
-           const usuarios = await this.modelUsuarios.obtenerUsuarios();
-           const profesorExistente = usuarios.find(u.rol == "profe" && u.nombre == clase.nombreProfesor && u.email == clase.emailProfesor)
-           if(profesorExistente != null) {
-            
-            const claseAgregada = await this.model.guardarClase(clase)
-            return claseAgregada
-
-           }
-           else {
-            throw "El profesor no existe"
-
-           }
-
-
+        try{
+            if (res.result) {
+                const usuarios = await this.modelUsuarios.obtenerUsuarios();
+                const profesorExistente = usuarios.find(u => u.rol == "profe" && u.nombre == clase.nombreProfesor && u.email == clase.emailProfesor)
+                if(profesorExistente != null) {
+                 
+                 const claseAgregada = await this.model.guardarClase(clase)
+                 console.log("Se guardo la clase correctamente")
+                 return claseAgregada
+     
+                }
+                else {
+                 throw "El profesor no existe"
+     
+                }
+     
+     
+     
+             }
+             else {
+                 console.log(res.error)
+                 throw res.error
+     
+     
+             }
 
         }
-        else {
-            console.log(res.error)
-            throw res.error
-
+        catch(error){
+            console.log(error)
 
         }
+      
 
 
     }  
