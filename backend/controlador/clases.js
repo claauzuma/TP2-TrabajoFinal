@@ -1,4 +1,4 @@
-import Servicio from '../servicio/usuarios.js'
+import Servicio from '../servicio/clases.js'
 
 
 class Controlador {
@@ -8,9 +8,31 @@ class Controlador {
 
     obtenerClases = async (req,res) => {
         const { id } = req.params
-        const profes = await this.servicio.obtenerProfes(id)
-        res.json(profes)
+        const clases = await this.servicio.obtenerClases(id)
+        res.json(clases)
     }
+
+    agregarClase = async (req, res) => {
+        if (req.body) {
+            const clase = req.body
+            const claseAgregada = await this.servicio.agregarClase(clase)
+            res.json(claseAgregada)
+
+        }
+        else {
+            res.status(400).json({ message: 'error' })
+
+        }
+
+    }
+
+    borrarClase = async (req,res) => {
+        const { id } = req.params
+        const claseBorrada = await this.servicio.borrarClase(id)
+        res.json(claseBorrada)
+    }
+
+    
 
    
 }
