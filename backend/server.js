@@ -24,7 +24,7 @@ class Server {
     this.app.use('/api/usuarios', new RouterUsuarios(this.persistencia).start())
     this.app.use(cors())
 
-    if (config.MODO_PERSISTENCIA == 'MONGODB') {
+    if (this.persistencia == 'MONGODB') {
     await CnxMongoDB.conectar()
     }
 

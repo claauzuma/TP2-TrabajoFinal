@@ -23,11 +23,11 @@ class Router {
         this.router.post('/rutinas/agregar', this.controlador.agregarRutina) */
         this.router.post('/clases/agregar/:id', this.controlador.inscribirAClase)
 
-        this.router.put('/usuarios/:id', this.controlador.modificarUsuario)
+        this.router.put('/:id', this.controlador.modificarUsuario)
        /*  this.router.put('/rutinas/:id', this.controlador.modificarRutina) */
 
         this.router.delete('/clases/desuscribir/:id', this.controlador.desuscribirseDeClase)
-        this.router.delete('/usuarios/:id', this.controlador.borrarUsuario)
+        this.router.delete('/:id', this.controlador.borrarUsuario)
       /*   this.router.delete('/clases/:id', this.controlador.eliminarClase)
         this.router.delete('/rutinas/:id', this.controlador.eliminarRutina) */
 

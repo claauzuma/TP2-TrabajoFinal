@@ -60,7 +60,7 @@ class Servicio {
             const usuarios = this.obtenerUsuarios();
             alumno.id = parseInt(usuarios[usuarios.length - 1]?.id || 0) + 1;
             
-            const alumnoAgregado = await this.model.agregarUsuario(alumno)
+            const alumnoAgregado = await this.model.guardarUsuario(alumno)
             return alumnoAgregado
 
         }
@@ -78,7 +78,7 @@ class Servicio {
             const usuarios = this.obtenerUsuarios();
             profesor.id = parseInt(usuarios[usuarios.length - 1]?.id || 0) + 1;
 
-            const profeAgregado = await this.model.agregarUsuario(profesor)
+            const profeAgregado = await this.model.guardarUsuario(profesor)
             return profeAgregado
 
         }
