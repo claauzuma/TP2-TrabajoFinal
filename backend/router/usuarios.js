@@ -2,6 +2,8 @@ import express from 'express'
 import ControladorUsuarios from '../controlador/usuarios.js'
 import ControladorClases from '../controlador/clases.js'
 import ControladorRutinas from '../controlador/rutinas.js'
+import ControladorNutritionix from '../controlador/nutritionixAPI.js';
+
 
 
 class Router {
@@ -10,6 +12,7 @@ class Router {
         this.controladorUsuarios = new ControladorUsuarios(persistencia)
         this.controladorClases = new ControladorClases(persistencia)
         this.controladorRutinas = new ControladorRutinas(persistencia)
+        this.controladorNutritionix = new ControladorNutritionix()
         
     }
 
@@ -28,6 +31,7 @@ class Router {
         this.router.post('/clases', this.controladorClases.agregarClase)
         this.router.post('/rutinas/agregar', this.controladorRutinas.agregarRutina)
         this.router.post('/clases/agregar/:id', this.controladorUsuarios.inscribirAClase)
+        this.router.post('/calorias', this.controladorNutritionix.obtenerEjercicio);
 
         this.router.put('/:id', this.controladorUsuarios.modificarUsuario)
      /*    this.router.put('/rutinas/:id', this.controladorRutinas.modificarRutina) */
