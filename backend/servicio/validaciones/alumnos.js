@@ -10,6 +10,7 @@ export const validarAlumno = alumno => {
         contraseña: Joi.string().alphanum().required(),
         ingreso: Joi.string().alphanum().required(),
         plan: Joi.string().alphanum().required(),
+        rol: Joi.string().alphanum().required(),
     });
     
 

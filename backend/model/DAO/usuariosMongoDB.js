@@ -3,8 +3,10 @@ import CnxMongoDB from "../DBMongo.js"
 
 class ModelMongoDB {
     obtenerUsuarios = async id => {   
-        if(!CnxMongoDB.connection) return id? {}:[]
-
+        if (!CnxMongoDB.connection) {
+            // Si no hay conexión, podrías manejar esto de manera más explícita.
+            throw new Error('No hay conexión a la base de datos');
+        }
         if(id) {
             const usuario = await CnxMongoDB.db.collection('usuarios').findOne({_id: new ObjectId(id)})
             return usuario
