@@ -20,12 +20,15 @@ class Server {
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))
     this.app.use(express.static('public'))
+
     this.app.use('/api/usuarios', new RouterUsuarios(this.persistencia).start())
     this.app.use(cors())
+
     if (config.MODO_PERSISTENCIA == 'MONGODB') {
     await CnxMongoDB.conectar()
     }
-    const PORT = config.PORT
+
+    const PORT = this.PORT
     this.server = this.app.listen(PORT, () => console.log(`Servidor express escuchando en http://localhost:${PORT}`))
     this.server.on('error', error => console.log(`Error en servidor: ${error.message}`))
   
