@@ -13,6 +13,11 @@ class Servicio {
         this.model = ModelFactory.get(persistencia)
     }
 
+    obtenerUsuarios = async id => {
+        const usuarios = await this.model.obtenerUsuarios(id)
+        return usuarios
+    }   
+
     obtenerProfes = async id => {
         const usuarios = await this.model.obtenerUsuarios(id)
         const profes = usuarios.filter(u => u.rol =="profe")
@@ -49,11 +54,14 @@ class Servicio {
 
     }   
 
-    agregarAlumno = async usuario => {
-        const res = validarAlumno(usuario)
+    agregarAlumno = async alumno => {
+        const res = validarAlumno(alumno)
         if (res.result) {
-            const usuarioAgregado = await this.model.agregarUsuario(usuario)
-            return usuarioAgregado
+            const usuarios = this.obtenerUsuarios();
+            alumno.id = parseInt(usuarios[usuarios.length - 1]?.id || 0) + 1;
+            
+            const alumnoAgregado = await this.model.agregarUsuario(alumno)
+            return alumnoAgregado
 
         }
         else {
@@ -64,11 +72,14 @@ class Servicio {
 
     }
 
-    agregarProfesor = async usuario => {
-        const res = validarProfesor(usuario)
+    agregarProfesor = async profesor => {
+        const res = validarProfesor(profesor)
         if (res.result) {
-            const usuarioAgregado = await this.model.agregarUsuario(usuario)
-            return usuarioAgregado
+            const usuarios = this.obtenerUsuarios();
+            profesor.id = parseInt(usuarios[usuarios.length - 1]?.id || 0) + 1;
+
+            const profeAgregado = await this.model.agregarUsuario(profesor)
+            return profeAgregado
 
         }
         else {
@@ -77,6 +88,32 @@ class Servicio {
 
         }
 
+    }
+
+
+    inscribirAClase = async (idClase, usuario) => {
+ 
+        //busco la clase
+        const clases = this.obtenerClases()
+        const clase = clases.find(c=>c.id == idClase)
+
+        const inscriptosAClases = this.obtenerInscriptosAClases()
+        const usuarioInscripto = inscriptosAClases.filter(i=>i.idClase==idClase&&i.idUsuario==usuario.id)
+        
+        if (clase.anotados < clase.capacidad && usuarioInscripto == null)
+        {
+              //Creo objeto clase y usuario
+            const claseYUsuario = {idClase: idClase, idUsuario: usuario.id}
+            inscriptosAClases.push(claseYUsuario)
+            clase.anotados++
+            res.status(200).json({message:'bien'})
+
+        }
+        else {
+            throw new Error('Error')
+        }
+
+        return usuarioActualizado
     }
  
     modificarUsuario = async (id, usuario) => {

@@ -21,7 +21,7 @@ class Router {
         this.router.post('/profesores/agregar', this.controlador.agregarProfesor)
         this.router.post('/clases/agregar', this.controlador.agregarClase)
         this.router.post('/rutinas/agregar', this.controlador.agregarRutina)
-        this.router.post('/clases/agregar/:id', this.controlador.inscribirseAClase)
+        this.router.post('/clases/agregar/:id', this.controlador.inscribirAClase)
 
         this.router.put('/usuarios/:id', this.controlador.modificarUsuario)
         this.router.put('/rutinas/:id', this.controlador.modificarRutina)
