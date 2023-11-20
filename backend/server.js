@@ -1,16 +1,49 @@
 import express from 'express'
-
 import RouterUsuarios from './router/usuarios.js'
-
-
+import CnxMongoDB from './router/usuarios.js'
 import cors from 'cors'
 import jsonwebtoken from 'jsonwebtoken';
 
-const app = express()
-app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-app.use(express.static('public'))
+class Server {
+  constructor(port,persistencia) {
+    this.port = port
+    this.persistencia = persistencia
+    this.app = express()
+    this.server = null
+  }
+
+
+  async start() {
+    this.app.use(express.json())
+    this.app.use(express.urlencoded({ extended: true }))
+    this.app.use(express.static('public'))
+    this.app.use('/api/usuarios', new RouterUsuarios(this.persistencia).start())
+    this.app.use(cors())
+    if (this.persistencia == 'MONGODB') {
+    await CnxMongoDB.conectar()
+    }
+    const PORT = this.PORT
+    this.server = this.app.listen(PORT, () => console.log(`Servidor express escuchando en http://localhost:${PORT}`))
+    this.server.on('error', error => console.log(`Error en servidor: ${error.message}`))
+  
+  }
+
+  async stop(){
+    if(this.server){
+        this.server.close()
+        await CnxMongoDB.desconectar()
+        this.server = null
+
+    }
+}
+
+}
+
+export default Server;
+
+
+
+
 
 
 // base de prueba en memoria
@@ -180,6 +213,33 @@ app.post('/clases/agregar/:id',(req,res) =>{
   }
 })
 
+app.put('/alumnos/:id', (req, res) => {
+  const userId = parseInt(req.params.id);
+  const userIndex = users.findIndex(user => user.id === userId);
+
+  if (userIndex === -1) {
+    return res.status(404).json({ message: 'Usuario no encontrado' });
+  }
+
+  users[userIndex] = { ...users[userIndex], ...req.body };
+
+  return res.status(200).json(users[userIndex]);
+});
+
+
+app.put('/rutinas/:id', (req, res) => {
+  const rutinaId = parseInt(req.params.id);
+  const rutinaIndex = rutinas.findIndex(rutina => rutina.id === rutinaId);
+
+  if (rutinaIndex === -1) {
+    return res.status(404).json({ message: 'Rutina no encontrada' });
+  }
+
+  rutinas[rutinaIndex] = { ...rutinas[rutinaIndex], ...req.body };
+
+  return res.status(200).json(rutinas[rutinaIndex]);
+});
+
 app.delete('/clases/desuscribir/:id', (req, res) => {
   const {id: idClase} = req.params
   const usuario = req.body; // Supongamos que el id del usuario está en req.body.id
@@ -342,35 +402,6 @@ app.put('/lista/:id', (req,res) =>{
   // falta manejo de errores
   // res.status(404).json({message:'error'})
 })
-app.put('/alumnos/:id', (req, res) => {
-  const userId = parseInt(req.params.id);
-  const userIndex = users.findIndex(user => user.id === userId);
-
-  if (userIndex === -1) {
-    return res.status(404).json({ message: 'Usuario no encontrado' });
-  }
-
-  users[userIndex] = { ...users[userIndex], ...req.body };
-
-  return res.status(200).json(users[userIndex]);
-});
-
-
-app.put('/rutinas/:id', (req, res) => {
-  const rutinaId = parseInt(req.params.id);
-  const rutinaIndex = rutinas.findIndex(rutina => rutina.id === rutinaId);
-
-  if (rutinaIndex === -1) {
-    return res.status(404).json({ message: 'Rutina no encontrada' });
-  }
-
-  rutinas[rutinaIndex] = { ...rutinas[rutinaIndex], ...req.body };
-
-  return res.status(200).json(rutinas[rutinaIndex]);
-});
 
 
 
-const PORT = 3000
-const server = app.listen(PORT, () => console.log(`Servidor express escuchando en http://localhost:${PORT}`))
-server.on('error', error => console.log(`Error en servidor: ${error.message}`))
