@@ -54,7 +54,7 @@ export default Server;
 
 // base de prueba en memoria
 
-const users = [
+/* const users = [
   {email:'admin@test.com',password:'1234','rol':'admin',id: 1},
   {email:'alumnooro@test.com',password:'1234','rol':'alumno',plan:'oro',id: 2,clasesInscriptas:[1,2]},
   {email:'alumnoba@test.com',password:'1234','rol':'alumno',id: 3,plan:'basico'},
@@ -411,3 +411,4 @@ app.put('/lista/:id', (req,res) =>{
 
 
 
+ */

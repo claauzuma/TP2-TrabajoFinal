@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-export const validar = alumno => {
+export const validarAlumno = alumno => {
 
     const alumnoSchema = Joi.object({
         //se le pasa el objeto validador
