@@ -10,7 +10,7 @@ class Router {
 
     start() {
       
-        this.router.get('/profes', this.controlador.obtenerProfes)
+        this.router.get('/profesores', this.controlador.obtenerProfes)
         this.router.get('/alumnos', this.controlador.obtenerAlumnos)
       /*   this.router.get('/clases', this.controlador.obtenerClases)
         this.router.get('/rutinas', this.controlador.obtenerRutinas) */
