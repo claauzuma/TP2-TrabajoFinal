@@ -1,10 +1,10 @@
 import express from 'express'
 import RouterUsuarios from './router/usuarios.js'
+import RouterRutinas from './router/rutinas.js'
+import RouterClases from './router/clases.js'
 import CnxMongoDB from './model/DBMongo.js'
 import cors from 'cors'
 
-
-import config from './config.js'
 
 
 class Server {
@@ -21,7 +21,9 @@ class Server {
     this.app.use(express.urlencoded({ extended: true }))
     this.app.use(express.static('public'))
 
-    this.app.use('/api', new RouterUsuarios(this.persistencia).start())
+    this.app.use('/api/usuarios', new RouterUsuarios(this.persistencia).start())
+    this.app.use('/api/rutinas', new RouterRutinas(this.persistencia).start())
+    this.app.use('/api/clases', new RouterClases(this.persistencia).start())
     this.app.use(cors())
 
     if (this.persistencia == 'MONGODB') {

@@ -32,6 +32,13 @@ class Controlador {
         res.json(rutinaBorrada)
     }
 
+    modificarRutina = async (req,res) => {
+        const { id } = req.params
+        const rutina = req.body
+        const rutinaModificada = await this.servicio.modificarRutina(id,rutina)
+        res.json(rutinaModificada)
+    }
+
    
 }
 

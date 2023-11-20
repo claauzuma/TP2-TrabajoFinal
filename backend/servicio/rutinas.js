@@ -33,6 +33,11 @@ class Servicio {
 
     }  
 
+    modificarRutina = async (id,rutina) => {
+        const rutinaActualizada = await this.model.actualizarRutina(id,rutina)
+        return rutinaActualizada
+    }   
+
     borrarRutina = async id => {
         const rutinaBorrada = await this.model.borrarRutina(id)
         return rutinaBorrada
