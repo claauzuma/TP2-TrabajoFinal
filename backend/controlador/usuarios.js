@@ -6,18 +6,17 @@ class Controlador {
         this.servicio = new Servicio()
     }
 
-    obtenerUsuarios = async (req,res) => {
+    obtenerProfes = async (req,res) => {
         const { id } = req.params
         const usuarios = await this.servicio.obtenerUsuarios(id)
         res.json(usuarios)
     }
 
-    agregarUsuario = async (req,res) => {
-        const usuario = req.params
-        const usuarioAgregado = await this.servicio.agregarUsuario(usuario)
-        res.json(usuarioAgregado)
+    obtenerAlumnos = async (req,res) => {
+        const { id } = req.params
+        const usuarios = await this.servicio.obtenerUsuarios(id)
+        res.json(usuarios)
     }
-
 
     logearUsuario = async (req,res) => {
         const usuario = req.body
@@ -26,6 +25,16 @@ class Controlador {
         //res.redirect('/')
     }
 
+    
+
+    agregarUsuario = async (req,res) => {
+        const usuario = req.params
+        const usuarioAgregado = await this.servicio.agregarUsuario(usuario)
+        res.json(usuarioAgregado)
+    }
+
+
+ 
     modificarUsuario = async (req,res) => {
         const { id } = req.params
         const usuario = req.body
