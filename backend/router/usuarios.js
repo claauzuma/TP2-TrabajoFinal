@@ -21,25 +21,19 @@ class Router {
 
         this.router.get('/profesores', this.controladorUsuarios.obtenerProfes)
         this.router.get('/alumnos', this.controladorUsuarios.obtenerAlumnos)
-        this.router.get('/clases/:id?', this.controladorClases.obtenerClases) 
-        this.router.get('/rutinas', this.controladorRutinas.obtenerRutinas)
         this.router.get('/admin/clases/:id', this.controladorUsuarios.obtenerUsuariosDeClase)
 
         this.router.post('/login', this.controladorUsuarios.logearUsuario)
         this.router.post('/alumnos/agregar', this.controladorUsuarios.agregarAlumno)
         this.router.post('/profesores/agregar', this.controladorUsuarios.agregarProfesor)
-        this.router.post('/clases', this.controladorClases.agregarClase)
-        this.router.post('/rutinas/agregar', this.controladorRutinas.agregarRutina)
         this.router.post('/clases/agregar/:id', this.controladorUsuarios.inscribirAClase)
         this.router.post('/calorias', this.controladorNutritionix.obtenerEjercicio);
 
         this.router.put('/:id', this.controladorUsuarios.modificarUsuario)
-     /*    this.router.put('/rutinas/:id', this.controladorRutinas.modificarRutina) */
 
         this.router.delete('/clases/desuscribir/:id', this.controladorUsuarios.desuscribirseDeClase)
-        this.router.delete('/usuarios/:id', this.controladorUsuarios.borrarUsuario)
-        this.router.delete('/clases/:id', this.controladorClases.borrarClase)
-   /*      this.router.delete('/rutinas/:id', this.controladorRutinas.eliminarRutina) */
+        this.router.delete('/:id', this.controladorUsuarios.borrarUsuario)
+    
 
 
         return this.router
