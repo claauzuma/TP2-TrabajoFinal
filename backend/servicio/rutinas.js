@@ -1,4 +1,4 @@
-import ModelFactory from "../model/DAO/clasesFactory.js"
+import ModelFactory from "../model/DAO/rutinasFactory.js"
 import { validarRutina } from "./validaciones/rutinas.js"
 
 

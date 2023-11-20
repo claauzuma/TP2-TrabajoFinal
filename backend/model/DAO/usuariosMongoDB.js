@@ -39,9 +39,9 @@ class ModelMongoDB {
     borrarUsuario = async id => {
         if(!CnxMongoDB.connection) return {}
 
-        const usuariosBorrado = await this.obtenerUsuarios(id)
+        const usuarioBorrado = await this.obtenerUsuarios(id)
         await CnxMongoDB.db.collection('usuarios').deleteOne( { _id: new ObjectId(id) })
-        return usuariosBorrado
+        return usuarioBorrado
     }
 }
 

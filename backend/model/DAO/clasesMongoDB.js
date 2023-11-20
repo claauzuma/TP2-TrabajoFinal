@@ -2,46 +2,46 @@ import { ObjectId } from "mongodb"
 import CnxMongoDB from "../DBMongo.js"
 
 class ModelMongoDB {
-    obtenerObjetos = async (id,lista) => {   
+    obtenerClases = async id => {   
         if (!CnxMongoDB.connection) {
             // Si no hay conexión, podrías manejar esto de manera más explícita.
             throw new Error('No hay conexión a la base de datos');
         }
         if(id) {
-            const objeto = await CnxMongoDB.db.collection(lista).findOne({_id: new ObjectId(id)})
-            return objeto
+            const clase = await CnxMongoDB.db.collection('clases').findOne({_id: new ObjectId(id)})
+            return clase
         }
         else {
-            const objetos = await CnxMongoDB.db.collection(lista).find({}).toArray()
-            return objetos
+            const clases = await CnxMongoDB.db.collection('clases').find({}).toArray()
+            return clases
         }
     }
 
-    guardarObjeto = async (objeto,lista) => {
+    guardarClase = async clase => {
         if(!CnxMongoDB.connection) return {}
 
-        await CnxMongoDB.db.collection(lista).insertOne(objeto)
-        return objeto
+        await CnxMongoDB.db.collection('clases').insertOne(clase)
+        return clase
     }
 
-    actualizarObjeto = async (id, objeto, lista) => {
+    actualizarClase = async (id, clase) => {
         if(!CnxMongoDB.connection) return {}
 
-        await CnxMongoDB.db.collection(lista).updateOne(
+        await CnxMongoDB.db.collection('clases').updateOne(
             { _id: new ObjectId(id) },
-            { $set: objeto }
+            { $set: clase }
         )
 
-        const objetosActualizados = await this.obtenerObjetos(id,lista)
-        return objetosActualizados
+        const clasesActualizada = await this.obtenerClases(id)
+        return clasesActualizada
     }
 
-    borrarObjeto = async (id,lista) => {
+    borrarClase = async id => {
         if(!CnxMongoDB.connection) return {}
 
-        const objetoABorrar = await this.obtenerClases(id)
-        await CnxMongoDB.db.collection(lista).deleteOne( { _id: new ObjectId(id) })
-        return objetoABorrar
+        const claseABorrar = await this.obtenerClases(id)
+        await CnxMongoDB.db.collection('clases').deleteOne( { _id: new ObjectId(id) })
+        return claseABorrar
     }
 }
 
