@@ -17,13 +17,13 @@ class Router {
         this.router.get('/admin/clases/:id', this.controlador.obtenerUsuariosDeClase)
 
         this.router.post('/login', this.controlador.logearUsuario)
-        this.router.post('/usuarios/agregar', this.controlador.agregarUsuario)
+        this.router.post('/alumnos/agregar', this.controlador.agregarAlumno)
+        this.router.post('/profesores/agregar', this.controlador.agregarProfesor)
         this.router.post('/clases/agregar', this.controlador.agregarClase)
         this.router.post('/rutinas/agregar', this.controlador.agregarRutina)
         this.router.post('/clases/agregar/:id', this.controlador.inscribirseAClase)
 
-        this.router.put('/alumnos/:id', this.controlador.modificarAlumno)
-        this.router.put('/profes/:id', this.controlador.modificarProfesor)
+        this.router.put('/usuarios/:id', this.controlador.modificarUsuario)
         this.router.put('/rutinas/:id', this.controlador.modificarRutina)
 
         this.router.delete('/clases/desuscribir/:id', this.controlador.desuscribirseDeClase)

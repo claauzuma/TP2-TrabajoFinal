@@ -25,6 +25,13 @@ class Servicio {
         return alumnos
     }   
 
+    obtenerUsuariosDeClase = async idClase => {
+        const inscriptos = await this.obtenerAlumnos()
+        const usuariosDeClase = inscriptos.filter(alumno => alumno.idClase === idClase)
+        return usuariosDeClase
+    }   
+
+
     logearUsuario = async usuarioIngresado => {
         const usuarios = await this.model.obtenerUsuarios()
         const userDb = usuarios.find(u => u.email == usuarioIngresado.email && u.password == usuarioIngresado.password)
