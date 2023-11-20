@@ -59,6 +59,7 @@ class Servicio {
         if (res.result) {
             const usuarios = this.obtenerUsuarios();
             alumno.id = parseInt(usuarios[usuarios.length - 1]?.id || 0) + 1;
+            alumno.rol = "alumno"
             
             const alumnoAgregado = await this.model.guardarUsuario(alumno)
             return alumnoAgregado
@@ -77,6 +78,7 @@ class Servicio {
         if (res.result) {
             const usuarios = this.obtenerUsuarios();
             profesor.id = parseInt(usuarios[usuarios.length - 1]?.id || 0) + 1;
+            profesor.rol = "profe"
 
             const profeAgregado = await this.model.guardarUsuario(profesor)
             return profeAgregado
