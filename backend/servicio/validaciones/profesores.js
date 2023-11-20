@@ -8,7 +8,7 @@ export const validarProfesor = profesor => {
         dni: Joi.string().alphanum().required(),
         email: Joi.string().email().required(), 
         contraseña: Joi.string().alphanum().required(),
-        rol: Joi.string().alphanum().required(),
+        rol: Joi.string().alphanum(),
     });
     
 
