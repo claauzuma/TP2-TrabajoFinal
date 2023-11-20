@@ -42,7 +42,7 @@ class Controlador {
     agregarAlumno = async (req, res) => {
         if (req.body) {
             const alumno = req.body
-            const alumnoAgregado = await this.servicio.agregarUsuario(alumno)
+            const alumnoAgregado = await this.servicio.agregarAlumno(alumno)
             res.json(alumnoAgregado)
 
         }
@@ -55,7 +55,7 @@ class Controlador {
     agregarProfesor = async (req,res) => {
         if (req.body) {
         const profesor = req.body
-        const profesorAgregado = await this.servicio.agregarUsuario(profesor)
+        const profesorAgregado = await this.servicio.agregarProfesor(profesor)
         res.json(profesorAgregado)
         }
         else {
