@@ -4,6 +4,9 @@ import CnxMongoDB from './router/usuarios.js'
 import cors from 'cors'
 import jsonwebtoken from 'jsonwebtoken';
 
+import config from './config.js'
+
+
 class Server {
   constructor(port,persistencia) {
     this.port = port
@@ -19,10 +22,10 @@ class Server {
     this.app.use(express.static('public'))
     this.app.use('/api/usuarios', new RouterUsuarios(this.persistencia).start())
     this.app.use(cors())
-    if (this.persistencia == 'MONGODB') {
+    if (config.MODO_PERSISTENCIA == 'MONGODB') {
     await CnxMongoDB.conectar()
     }
-    const PORT = this.PORT
+    const PORT = config.PORT
     this.server = this.app.listen(PORT, () => console.log(`Servidor express escuchando en http://localhost:${PORT}`))
     this.server.on('error', error => console.log(`Error en servidor: ${error.message}`))
   
