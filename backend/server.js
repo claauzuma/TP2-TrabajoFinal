@@ -1,8 +1,8 @@
 import express from 'express'
 import RouterUsuarios from './router/usuarios.js'
-import CnxMongoDB from './router/usuarios.js'
+import CnxMongoDB from './model/DBMongo.js'
 import cors from 'cors'
-import jsonwebtoken from 'jsonwebtoken';
+
 
 import config from './config.js'
 
