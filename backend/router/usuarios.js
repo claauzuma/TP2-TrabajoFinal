@@ -10,8 +10,6 @@ class Router {
     constructor(persistencia) {
         this.router = express.Router()
         this.controladorUsuarios = new ControladorUsuarios(persistencia)
-        this.controladorClases = new ControladorClases(persistencia)
-        this.controladorRutinas = new ControladorRutinas(persistencia)
         this.controladorNutritionix = new ControladorNutritionix()
         
     }

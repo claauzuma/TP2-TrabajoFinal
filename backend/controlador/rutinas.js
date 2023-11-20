@@ -1,7 +1,7 @@
 import Servicio from '../servicio/rutinas.js'
 
 
-class Controlador {
+class ControladorRutinas {
     constructor(persistencia) {
         this.servicio = new Servicio(persistencia)
     }
@@ -42,4 +42,4 @@ class Controlador {
    
 }
 
-export default Controlador
+export default ControladorRutinas

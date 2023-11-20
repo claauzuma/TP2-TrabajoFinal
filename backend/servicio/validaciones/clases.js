@@ -5,7 +5,8 @@ export const validarClase = clase => {
     const claseSchema = Joi.object({
 
         descripcion: Joi.string().alphanum().required(),
-        profesor: Joi.string().alphanum().required(),
+        nombreProfesor: Joi.string().alphanum().required(),
+        emailProfesor: Joi.string().email().required(),
         horario: Joi.string().alphanum().required(),
        
     });

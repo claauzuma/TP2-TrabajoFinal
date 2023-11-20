@@ -1,7 +1,7 @@
 import Servicio from '../servicio/clases.js'
 
 
-class Controlador {
+class ControladorClases {
     constructor(persistencia) {
         this.servicio = new Servicio(persistencia)
     }
@@ -37,4 +37,4 @@ class Controlador {
    
 }
 
-export default Controlador
+export default ControladorClases

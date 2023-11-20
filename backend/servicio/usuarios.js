@@ -1,7 +1,7 @@
 //import ModelMem from '../model/DAO/productosMem.js'
 //import ModelFile from '../model/DAO/productosFile.js'
 
-import ModelFactory from "../model/DAO/usuariosFactory.js"
+import ModelFactoryUsuarios from "../model/DAO/usuariosFactory.js"
 import { validarAlumno } from "./validaciones/alumnos.js"
 import { validarProfesor } from "./validaciones/profesores.js"
 
@@ -10,7 +10,7 @@ class Servicio {
     constructor(persistencia) {
         //this.model = new ModelMem()
         //this.model = new ModelFile()
-        this.model = ModelFactory.get(persistencia)
+        this.model = ModelFactoryUsuarios.get(persistencia)
     }
 
     obtenerUsuarios = async id => {

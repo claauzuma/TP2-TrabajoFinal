@@ -1,7 +1,7 @@
 import ModelMem from "./usuariosMem.js"
 import ModelMongoDB from "./usuariosMongoDB.js"
 
-class ModelFactory {
+class ModelFactoryUsuarios {
     static get(tipo) {
         switch (tipo) {
             case 'MEM':
@@ -19,4 +19,4 @@ class ModelFactory {
     }
 }
 
-export default ModelFactory
+export default ModelFactoryUsuarios

@@ -1,4 +1,5 @@
 import ModelFactory from "../model/DAO/clasesFactory.js"
+import ModelFactoryUsuarios from "../model/DAO/usuariosFactory.js"
 import { validarClase } from "./validaciones/clases.js"
 
 
@@ -8,6 +9,7 @@ class Servicio {
         //this.model = new ModelMem()
         //this.model = new ModelFile()
         this.model = ModelFactory.get(persistencia)
+        this.modelUsuarios = ModelFactoryUsuarios.get(persistencia)
     }
 
     obtenerClases = async id => {
@@ -19,8 +21,20 @@ class Servicio {
 
         const res = validarClase(clase)
         if (res.result) {
+           const usuarios = await this.modelUsuarios.obtenerUsuarios();
+           const profesorExistente = usuarios.find(u.rol == "profe" && u.nombre == clase.nombreProfesor && u.email == clase.emailProfesor)
+           if(profesorExistente != null) {
+            
             const claseAgregada = await this.model.guardarClase(clase)
             return claseAgregada
+
+           }
+           else {
+            throw "El profesor no existe"
+
+           }
+
+
 
         }
         else {
