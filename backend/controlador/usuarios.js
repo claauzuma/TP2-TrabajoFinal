@@ -2,31 +2,36 @@ import Servicio from '../servicio/usuarios.js'
 
 
 class Controlador {
-    constructor() {
-        this.servicio = new Servicio()
+    constructor(persistencia) {
+        this.servicio = new Servicio(persistencia)
     }
 
     obtenerProfes = async (req,res) => {
         const { id } = req.params
-        const usuarios = await this.servicio.obtenerUsuarios(id)
-        res.json(usuarios)
+        const profes = await this.servicio.obtenerProfes(id)
+        res.json(profes)
     }
 
     obtenerAlumnos = async (req,res) => {
         const { id } = req.params
-        const usuarios = await this.servicio.obtenerUsuarios(id)
-        res.json(usuarios)
+        const alumnos = await this.servicio.obtenerAlumnos(id)
+        res.json(alumnos)
     }
 
-    logearUsuario = async (req,res) => {
+    logearUsuario = async (req, res) => {
         const usuario = req.body
-        const usuarioLogeado = await this.servicio.logearUsuario(usuario)
-        res.json(usuarioLogeado)
-        //res.redirect('/')
+        if (req.body) {
+            const usuarioLogeado = await this.servicio.logearUsuario(usuario)
+            res.json(usuarioLogeado)
+            //res.redirect('/')
+        }
+        else {
+            res.status(400).json({ message: 'error' })
+        }
+
     }
 
     
-
     agregarUsuario = async (req,res) => {
         const usuario = req.params
         const usuarioAgregado = await this.servicio.agregarUsuario(usuario)
@@ -34,8 +39,14 @@ class Controlador {
     }
 
 
- 
-    modificarUsuario = async (req,res) => {
+    modificarAlumno = async (req,res) => {
+        const { id } = req.params
+        const usuario = req.body
+        const usuarioModificado = await this.servicio.modificarUsuario(id, usuario)
+        res.json(usuarioModificado)
+    }
+
+    modificarProfesor = async (req,res) => {
         const { id } = req.params
         const usuario = req.body
         const usuarioModificado = await this.servicio.modificarUsuario(id, usuario)

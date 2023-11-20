@@ -27,8 +27,7 @@ class Router {
         this.router.put('/rutinas/:id', this.controlador.modificarRutina)
 
         this.router.delete('/clases/desuscribir/:id', this.controlador.desuscribirseDeClase)
-        this.router.delete('/alumnos/:id', this.controlador.eliminarAlumno)
-        this.router.delete('/profes/:id', this.controlador.eliminarProfe)
+        this.router.delete('/usuarios/:id', this.controlador.borrarUsuario)
         this.router.delete('/clases/:id', this.controlador.eliminarClase)
         this.router.delete('/rutinas/:id', this.controlador.eliminarRutina)
 
