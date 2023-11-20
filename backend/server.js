@@ -21,7 +21,7 @@ class Server {
     this.app.use(express.urlencoded({ extended: true }))
     this.app.use(express.static('public'))
 
-    this.app.use('/api/usuarios', new RouterUsuarios(this.persistencia).start())
+    this.app.use('/api', new RouterUsuarios(this.persistencia).start())
     this.app.use(cors())
 
     if (this.persistencia == 'MONGODB') {

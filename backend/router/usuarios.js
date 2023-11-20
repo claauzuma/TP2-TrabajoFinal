@@ -10,14 +10,11 @@ class Router {
 
     start() {
       
-<<<<<<< HEAD
-        this.router.get('/profes/id?', this.controlador.obtenerProfes)
-=======
+
         this.router.get('/profesores', this.controlador.obtenerProfes)
->>>>>>> e8cf7d91ea8a2a4e365bd5759104e079de9f5891
         this.router.get('/alumnos', this.controlador.obtenerAlumnos)
-      /*   this.router.get('/clases', this.controlador.obtenerClases)
-        this.router.get('/rutinas', this.controlador.obtenerRutinas) */
+        this.router.get('/clases', this.controlador.obtenerClases) 
+        this.router.get('/rutinas', this.controlador.obtenerRutinas)
         this.router.get('/admin/clases/:id', this.controlador.obtenerUsuariosDeClase)
 
         this.router.post('/login', this.controlador.logearUsuario)
