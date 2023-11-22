@@ -35,11 +35,6 @@ class Servicio {
         return alumnos
     }   
 
-    obtenerUsuariosDeClase = async idClase => {
-        const inscriptos = await this.obtenerAlumnos()
-        const usuariosDeClase = inscriptos.filter(alumno => alumno.idClase === idClase)
-        return usuariosDeClase
-    }
     
     obtenerInscriptos = async idClase => {
         const alumnos = this.obtenerAlumnos()
@@ -141,7 +136,7 @@ class Servicio {
     }
 }
 
-    desuscibirseDeClase = async (idClase, usuario) => {
+    desuscribirseDeClase = async (idClase, usuario) => {
 
     const claseDeUsuario = -1;
     claseDeUsuario = usuario.clasesInscriptas.find(IDclaseInscripta => IDclaseInscripta == idClase)

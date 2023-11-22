@@ -19,7 +19,7 @@ class Router {
 
         this.router.get('/profesores', this.controladorUsuarios.obtenerProfes)
         this.router.get('/alumnos', this.controladorUsuarios.obtenerAlumnos)
-        this.router.get('/admin/clases/:id', this.controladorUsuarios.obtenerUsuariosDeClase)
+        this.router.get('/admin/clases/:id', this.controladorUsuarios.obtenerInscriptos)
 
         this.router.post('/login', this.controladorUsuarios.logearUsuario)
         this.router.post('/alumnos/agregar', this.controladorUsuarios.agregarAlumno)

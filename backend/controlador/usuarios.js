@@ -18,10 +18,10 @@ class ControladorUsuarios {
         res.json(alumnos)
     }
 
-    obtenerUsuariosDeClase = async (req,res) => {
+    obtenerInscriptos = async (req,res) => {
         const { id } = req.params
-        const usuariosDeClase = await this.servicio.obtenerUsuariosDeClase(id)
-        res.json(usuariosDeClase)
+        const inscriptos = await this.servicio.obtenerInscriptos(id)
+        res.json(inscriptos)
     }
 
 
@@ -71,6 +71,20 @@ class ControladorUsuarios {
             const usuario = req.body;
             const usuarioInscripto = await this.servicio.inscribirAClase(idClase,usuario)
             res.json(usuarioInscripto)
+        }
+        else 
+        {
+            res.status(400).json({message:'error'})
+        }
+
+    }
+
+    desuscribirseDeClase = async (req, res) => {
+        if (req.body && req.params) {
+            const { id: idClase } = req.params
+            const usuario = req.body;
+            const usuarioDesuscripto = await this.servicio.desuscribirseDeClase(idClase,usuario)
+            res.json(usuarioDesuscripto)
         }
         else 
         {
