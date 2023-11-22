@@ -39,6 +39,24 @@ class Servicio {
         const inscriptos = await this.obtenerAlumnos()
         const usuariosDeClase = inscriptos.filter(alumno => alumno.idClase === idClase)
         return usuariosDeClase
+    }
+    
+    obtenerInscriptos = async idClase => {
+        const alumnos = this.obtenerAlumnos()
+        const inscriptos = [] ;
+        
+        alumnos.array.forEach(alumno => {
+
+            claseExistente = alumno.clasesInscriptas.find(idClase)
+            if(claseExistente != null) {
+                inscriptos.push(alumno)
+            }
+              
+    
+            });
+       
+            
+        return inscriptos
     }   
 
 
