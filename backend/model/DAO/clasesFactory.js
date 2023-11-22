@@ -1,7 +1,7 @@
 
 import ModelMongoDB from "./clasesMongoDB.js"
 
-class ModelFactory {
+class ModelFactoryClases {
     static get(tipo) {
         switch (tipo) {
 
@@ -16,4 +16,4 @@ class ModelFactory {
     }
 }
 
-export default ModelFactory
+export default ModelFactoryClases

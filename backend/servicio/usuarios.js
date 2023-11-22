@@ -2,6 +2,9 @@
 //import ModelFile from '../model/DAO/productosFile.js'
 
 import ModelFactoryUsuarios from "../model/DAO/usuariosFactory.js"
+import ModelFactoryRutinas from "../model/DAO/rutinasFactory.js"
+import ModelFactoryClases from "../model/DAO/clasesFactory.js"
+
 import { validarAlumno } from "./validaciones/alumnos.js"
 import { validarProfesor } from "./validaciones/profesores.js"
 
@@ -11,6 +14,8 @@ class Servicio {
         //this.model = new ModelMem()
         //this.model = new ModelFile()
         this.model = ModelFactoryUsuarios.get(persistencia)
+        this.modelRutinas = ModelFactoryRutinas.get(persistencia)
+        this.modelClases = ModelFactoryClases.get(persistencia)
     }
 
     obtenerUsuarios = async id => {
@@ -60,6 +65,7 @@ class Servicio {
             const usuarios = this.obtenerUsuarios();
             alumno.id = parseInt(usuarios[usuarios.length - 1]?.id || 0) + 1;
             alumno.rol = "alumno"
+            alumno.tieneRutina = false;
             
             const alumnoAgregado = await this.model.guardarUsuario(alumno)
             return alumnoAgregado
@@ -94,29 +100,48 @@ class Servicio {
 
 
     inscribirAClase = async (idClase, usuario) => {
- 
+
+       const claseDeUsuario = -1;
+       claseDeUsuario = usuario.clasesInscriptas.find(IDclaseInscripta => IDclaseInscripta == idClase)
+       if(claseDeUsuario == -1) {
         //busco la clase
-        const clases = this.obtenerClases()
-        const clase = clases.find(c=>c.id == idClase)
+        const clases = this.modelClases.obtenerClases();
+        const clase = clases.find(c=> c.id == idClase)
 
-        const inscriptosAClases = this.obtenerInscriptosAClases()
-        const usuarioInscripto = inscriptosAClases.filter(i=>i.idClase==idClase&&i.idUsuario==usuario.id)
-        
-        if (clase.anotados < clase.capacidad && usuarioInscripto == null)
-        {
-              //Creo objeto clase y usuario
-            const claseYUsuario = {idClase: idClase, idUsuario: usuario.id}
-            inscriptosAClases.push(claseYUsuario)
-            clase.anotados++
-            res.status(200).json({message:'bien'})
-
+        if(clase.anotados < clase.capacidad) {
+        usuario.clasesInscriptas.push(clase._id)
+        clase.anotados++
+        res.status(200).json({message:'bien'})
         }
         else {
-            throw new Error('Error')
+            throw new Error('Error en capacidad de clase')
+
         }
 
-        return usuarioActualizado
+       } else {
+        throw new Error('Error, el alumno ya esta inscripto a dicha clase')
     }
+}
+
+    desuscibirseDeClase = async (idClase, usuario) => {
+
+    const claseDeUsuario = -1;
+    claseDeUsuario = usuario.clasesInscriptas.find(IDclaseInscripta => IDclaseInscripta == idClase)
+    if(claseDeUsuario != -1) {
+     //Si el id de la clase existe, entonces procedo y busco la clase
+     const clases = this.modelClases.obtenerClases();
+     const clase = clases.find(c=> c.id == idClase)
+     usuario.clasesInscriptas.splice(clase._id,1)
+     //a la clase le resto un inscripto
+     clase.anotados--
+     res.status(200).json({message:'bien'})
+     
+
+    } else {
+     throw new Error('Error, el alumno no se encuentra inscripto a la clase')
+ }
+}
+
  
     modificarUsuario = async (id, usuario) => {
         const usuarioActualizado = await this.model.actualizarUsuario(id,usuario)
@@ -125,6 +150,15 @@ class Servicio {
 
     borrarUsuario = async id => {
         const usuarioBorrado = await this.model.borrarUsuario(id)
+        if(usuarioBorrado.rol == "alumno" && usuarioBorrado.tieneRutina) {
+        const rutinas = this.modelRutinas.obtenerRutinas()
+        const rutinaABorrar = rutinas.find(r => r.nombreAlumno == usuarioBorrado.nombre && r.dniAlumno == usuarioBorrado.dni)
+        if(rutinaABorrar != null) {
+        this.modelRutinas.borrarRutina(rutinaABorrar)
+        }
+
+        }
+
         return usuarioBorrado
     }
 }

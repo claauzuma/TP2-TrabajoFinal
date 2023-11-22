@@ -25,6 +25,7 @@ class Servicio {
                 const usuarios = await this.modelUsuarios.obtenerUsuarios();
                 const profesorExistente = usuarios.find(u => u.rol == "profe" && u.nombre == clase.nombreProfesor && u.email == clase.emailProfesor)
                 if(profesorExistente != null) {
+                clase.anotados = 0;
                  
                  const claseAgregada = await this.model.guardarClase(clase)
                  console.log("Se guardo la clase correctamente")

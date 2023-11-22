@@ -4,8 +4,9 @@ export const validarRutina = rutina => {
 
     const rutinaSchema = Joi.object({
 
-        nombre: Joi.string().alphanum().required(),
-        alumno: Joi.string().alphanum().required(),
+        descripcion: Joi.string().alphanum().required(),
+        nombreAlumno: Joi.string().alphanum().required(),
+        dniAlumno: Joi.string().alphanum().required(),
         nivel: Joi.string().alphanum().required(),
        
     });
