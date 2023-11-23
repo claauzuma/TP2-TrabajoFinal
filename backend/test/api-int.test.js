@@ -55,4 +55,29 @@ describe('Test API para agregar usuarios y rutinas', () => {
       await server.stop();
     });
   });
+
+  describe('Test API para agregar usuarios y rutinas', () => {
+    describe('POST para agregar usuario', () => {
+      it('debería manejar un caso "no feliz"', async () => {
+        const server = new Server(8081, 'MONGODB');
+        const app = await server.start();
+        const request = supertest(app);
+  
+        const usuario = {
+          // omitimos el campo 'email'
+          nombre: 'NombreEjemplo',
+          apellido: 'ApellidoEjemplo',
+          dni: '12345678',
+          contraseña: 'contraseña123',
+          ingreso: 'ingreso123',
+          plan: 'plan123'
+        };
+  
+        const response = await request.post('/api/usuarios').send(usuario);
+        expect(response.status).to.not.eql(200); // Esperamos un estado diferente a 200
+  
+        await server.stop();
+      });
+    });
+  });  
 });
