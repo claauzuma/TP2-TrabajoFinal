@@ -35,7 +35,7 @@ describe("Test API para agregar usuarios y rutinas", () => {
 
   describe("POST para agregar rutina", () => {
     it("debería incorporar una rutina", async () => {
-      const server = new Server(8081, "MONGODB");
+      const server = new Server(8082, "MONGODB");
       const app = await server.start();
       const request = supertest(app);
 
@@ -58,7 +58,7 @@ describe("Test API para agregar usuarios y rutinas", () => {
 
   describe("POST para agregar usuario", () => {
     it('debería manejar un caso "no feliz"', async () => {
-      const server = new Server(8081, "MONGODB");
+      const server = new Server(8083, "MONGODB");
       const app = await server.start();
       const request = supertest(app);
 
