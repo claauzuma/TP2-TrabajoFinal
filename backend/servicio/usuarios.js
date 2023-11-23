@@ -89,13 +89,23 @@ class Servicio {
     agregarAlumno = async alumno => {
         const res = validarAlumno(alumno)
         if (res.result) {
-            const usuarios = this.obtenerUsuarios();
-            alumno.id = parseInt(usuarios[usuarios.length - 1]?.id || 0) + 1;
-            alumno.rol = "alumno"
-            alumno.tieneRutina = false;
-            
-            const alumnoAgregado = await this.model.guardarUsuario(alumno)
-            return alumnoAgregado
+            const usuarios = await this.obtenerUsuarios();
+            const usuarioExistente = usuarios.find(u => u.email == alumno.email)
+            if (usuarioExistente == null) {
+                console.log("El email no esta repetido asi que todo ok")
+                alumno.rol = "alumno"
+                alumno.tieneRutina = false;
+                alumno.clasesInscriptas =[]
+
+                const alumnoAgregado = await this.model.guardarUsuario(alumno)
+                return alumnoAgregado
+
+            }
+            else {
+                console.log("El mail ya existe")
+            }
+
+
 
         }
         else {
@@ -209,12 +219,29 @@ class Servicio {
 
     borrarUsuario = async id => {
         const usuarioBorrado = await this.model.borrarUsuario(id)
+        console.log("Eliminando a " + usuarioBorrado.nombre)
+
         if(usuarioBorrado.rol == "alumno" && usuarioBorrado.tieneRutina) {
-            const rutinas = this.modelRutinas.obtenerRutinas()
+            console.log("Ojo el dibu tiene una rutina ")
+            const rutinas = await this.modelRutinas.obtenerRutinas()
             const rutinaABorrar = rutinas.find(r => r.nombreAlumno == usuarioBorrado.nombre && r.dniAlumno == usuarioBorrado.dni)
             if(rutinaABorrar != null) {
+                console.log("Eliminamos su rutina tambien entonces")
                 await this.modelRutinas.borrarRutina(rutinaABorrar._id)
             }    
+        }
+
+        if(usuarioBorrado.rol =="profe") {
+            console.log("El usuario borrado es un probe")
+            const clases = await this.modelClases.obtenerClases()
+            const claseABorrar = clases.find(c=> c.nombreProfesor = usuarioBorrado.nombre && c.emailProfesor == usuarioBorrado.email)
+            if(claseABorrar != null) {
+                console.log("Borramos la clase de dicho profe")
+                await this.modelClases.borrarClase(claseABorrar._id)
+
+            }
+
+
         }
          return usuarioBorrado
     }
