@@ -20,8 +20,8 @@ class Router {
         this.router.get('/admin/clases/:id', this.controladorUsuarios.obtenerInscriptos)
 
         this.router.post('/login', this.controladorUsuarios.logearUsuario)
-        this.router.post('/alumnos/agregar', this.controladorUsuarios.agregarAlumno)
-        this.router.post('/profesores/agregar', this.controladorUsuarios.agregarProfesor)
+        this.router.post('/alumnos', this.controladorUsuarios.agregarAlumno)
+        this.router.post('/profesores', this.controladorUsuarios.agregarProfesor)
         this.router.post('/clases/agregar/:id', this.controladorUsuarios.inscribirAClase)
         this.router.post('/calorias', this.controladorNutritionix.obtenerEjercicio);
 

@@ -51,13 +51,14 @@ class Servicio {
 
     
     obtenerInscriptos = async idClase => {
-        const alumnos = this.obtenerAlumnos()
+        const alumnos = await this.obtenerAlumnos()
         const inscriptos = [] ;
         
-        alumnos.array.forEach(alumno => {
+        alumnos.forEach(alumno => {
 
-            claseExistente = alumno.clasesInscriptas.find(idClase)
+            const claseExistente = alumno.clasesInscriptas.find(c => c == idClase)
             if(claseExistente != null) {
+                console.log("Se pusheo al alumno " + alumno.nombre)
                 inscriptos.push(alumno)
             }
               
@@ -89,13 +90,23 @@ class Servicio {
     agregarAlumno = async alumno => {
         const res = validarAlumno(alumno)
         if (res.result) {
-            const usuarios = this.obtenerUsuarios();
-            alumno.id = parseInt(usuarios[usuarios.length - 1]?.id || 0) + 1;
-            alumno.rol = "alumno"
-            alumno.tieneRutina = false;
-            
-            const alumnoAgregado = await this.model.guardarUsuario(alumno)
-            return alumnoAgregado
+            const usuarios = await this.obtenerUsuarios();
+            const usuarioExistente = usuarios.find(u => u.email == alumno.email)
+            if (usuarioExistente == null) {
+                console.log("El email no esta repetido asi que todo ok")
+                alumno.rol = "alumno"
+                alumno.tieneRutina = false;
+                alumno.clasesInscriptas =[]
+
+                const alumnoAgregado = await this.model.guardarUsuario(alumno)
+                return alumnoAgregado
+
+            }
+            else {
+                console.log("El mail ya existe")
+            }
+
+
 
         }
         else {
@@ -128,40 +139,68 @@ class Servicio {
 
     inscribirAClase = async (idClase, usuario) => {
 
-       const claseDeUsuario = -1;
-       claseDeUsuario = usuario.clasesInscriptas.find(IDclaseInscripta => IDclaseInscripta == idClase)
-       if(claseDeUsuario == -1) {
-        //busco la clase
-        const clases = this.modelClases.obtenerClases();
-        const clase = clases.find(c=> c.id == idClase)
+        console.log(usuario.nombre)
 
-        if(clase.anotados < clase.capacidad) {
-        usuario.clasesInscriptas.push(clase._id)
-        clase.anotados++
-        res.status(200).json({message:'bien'})
+        let claseDeUsuario = "sinClase"
+        if (usuario.clasesInscriptas.length > 0) {
+
+            //si el usuario esta inscripto a alguna clase, nos fijamos si la tiene repetida
+            claseDeUsuario = usuario.clasesInscriptas.find(IDclaseInscripta => IDclaseInscripta == idClase)
+            console.log(claseDeUsuario)
+            if (claseDeUsuario == "sinClase") {
+                console.log("Perfecto, el usuario no esta inscripto a esa clase")
+            }
+            else {
+                throw new Error('Error, el alumno ya esta inscripto a dicha clase')
+            }
+
+        }
+        //el usuario no esta inscripto a clases o no la tiene en sus clases inscriptas
+        console.log("El usuario puede inscribirse a la clase , asi que procedemos a buscar la clase")
+
+        const clases = await this.modelClases.obtenerClases();
+        const clase = clases.find(c => c._id == idClase)
+        console.log(clase.anotados + " " + clase.capacidad)
+
+        if (clase.anotados < clase.capacidad) {
+            console.log("Hay capacidad, perfecto")
+            console.log("Hay " + clase.anotados + " anotados")
+            usuario.clasesInscriptas.push(clase._id)
+            clase.anotados++
+
+            //Actualizamos clase y usuario, para que se refleje en la base de datos
+           this.modelClases.actualizarClase(clase._id, clase)
+           this.model.actualizarUsuario(usuario._id, usuario)
+
+            console.log("Agregamos la clase a la lista y hay mas anotados en la clase " + clase.anotados)
+            return usuario;
         }
         else {
             throw new Error('Error en capacidad de clase')
 
         }
 
-       } else {
-        throw new Error('Error, el alumno ya esta inscripto a dicha clase')
+
+
+
     }
-}
 
     desuscribirseDeClase = async (idClase, usuario) => {
-
-    const claseDeUsuario = -1;
+    console.log("Arrancamos el metodo")
+    let claseDeUsuario = "SinClase";
     claseDeUsuario = usuario.clasesInscriptas.find(IDclaseInscripta => IDclaseInscripta == idClase)
-    if(claseDeUsuario != -1) {
+    if(usuario.clasesInscriptas.length > 0 && claseDeUsuario != "SinClase") {
+        console.log("El usuario tiene al menos una clase inscripta")
      //Si el id de la clase existe, entonces procedo y busco la clase
-     const clases = this.modelClases.obtenerClases();
+     const clases = await this.modelClases.obtenerClases();
      const clase = clases.find(c=> c.id == idClase)
      usuario.clasesInscriptas.splice(clase._id,1)
      //a la clase le resto un inscripto
      clase.anotados--
-     res.status(200).json({message:'bien'})
+     this.modelClases.actualizarClase(clase._id, clase)
+     this.model.actualizarUsuario(usuario._id, usuario)
+     console.log("Se actualizo todo ok")
+     return usuario;
      
 
     } else {
@@ -209,12 +248,29 @@ class Servicio {
 
     borrarUsuario = async id => {
         const usuarioBorrado = await this.model.borrarUsuario(id)
+        console.log("Eliminando a " + usuarioBorrado.nombre)
+
         if(usuarioBorrado.rol == "alumno" && usuarioBorrado.tieneRutina) {
-            const rutinas = this.modelRutinas.obtenerRutinas()
+            console.log("Ojo el dibu tiene una rutina ")
+            const rutinas = await this.modelRutinas.obtenerRutinas()
             const rutinaABorrar = rutinas.find(r => r.nombreAlumno == usuarioBorrado.nombre && r.dniAlumno == usuarioBorrado.dni)
             if(rutinaABorrar != null) {
+                console.log("Eliminamos su rutina tambien entonces")
                 await this.modelRutinas.borrarRutina(rutinaABorrar._id)
             }    
+        }
+
+        if(usuarioBorrado.rol =="profe") {
+            console.log("El usuario borrado es un probe")
+            const clases = await this.modelClases.obtenerClases()
+            const claseABorrar = clases.find(c=> c.nombreProfesor = usuarioBorrado.nombre && c.emailProfesor == usuarioBorrado.email)
+            if(claseABorrar != null) {
+                console.log("Borramos la clase de dicho profe")
+                await this.modelClases.borrarClase(claseABorrar._id)
+
+            }
+
+
         }
          return usuarioBorrado
     }

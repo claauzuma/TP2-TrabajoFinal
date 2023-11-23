@@ -26,6 +26,7 @@ class Servicio {
                 const usuarios = await this.modelUsuarios.obtenerUsuarios();
                 const profesorExistente = usuarios.find(u => u.rol == "profe" && u.nombre == clase.nombreProfesor && u.email == clase.emailProfesor)
                 if (profesorExistente != null) {
+                    console.log("joya, el profesor existe")
                     clase.anotados = 0;
 
                     const claseAgregada = await this.model.guardarClase(clase)
@@ -59,28 +60,21 @@ class Servicio {
     }
 
     borrarClase = async idClase => {
-        const claseBorrada = await this.model.borrarClase(id)
-        const usuarios = this.modelUsuarios.obtenerUsuarios();
+        const claseBorrada = await this.model.borrarClase(idClase)
+        const usuarios = await this.modelUsuarios.obtenerUsuarios();
         const alumnos = usuarios.filter(a => a.rol == "alumno")
 
-        alumnos.array.forEach(alumno => {
+        alumnos.forEach(alumno => {
+        
+         const claseEncontrada = alumno.clasesInscriptas.find(id => id == idClase)
+          if(claseEncontrada != null) {
+            console.log("Eliminamos la clase del usuario " +claseEncontrada)
+            alumno.clasesInscriptas.splice(claseEncontrada,1)
+            this.modelUsuarios.actualizarUsuario(alumno._id,alumno)
 
-        const claseEncontrada = false;
-        const i = 0;
-
-          while ( i < alumno.clasesInscriptas.length && !claseEncontrada) {
-            if(alumno.clasesInscriptas[i] == idClase){
-                claseEncontrada = true
-            }
-            else {
-                i++
-            }
-      
-          } 
-
-          if(claseEncontrada) {
-            alumno.clasesInscriptas.splice(alumno.clasesInscriptas[i],1)
-
+          }
+          else {
+            console.log("El alumno no tiene ninguna clase ")
           }
           
 
