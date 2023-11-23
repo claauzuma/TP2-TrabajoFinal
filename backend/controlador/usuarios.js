@@ -85,7 +85,9 @@ class ControladorUsuarios {
         if (req.body && req.params) {
             const { id: idClase } = req.params
             const usuario = req.body;
+            console.log("Vamos al servicio para desuscribirnos de la clase")
             const usuarioDesuscripto = await this.servicio.desuscribirseDeClase(idClase,usuario)
+
             res.json(usuarioDesuscripto)
         }
         else 

@@ -140,7 +140,6 @@ class Servicio {
     inscribirAClase = async (idClase, usuario) => {
 
         console.log(usuario.nombre)
-        console.log(usuario.clasesInscriptas.length)
 
         let claseDeUsuario = "sinClase"
         if (usuario.clasesInscriptas.length > 0) {
@@ -187,17 +186,21 @@ class Servicio {
     }
 
     desuscribirseDeClase = async (idClase, usuario) => {
-
-    const claseDeUsuario = -1;
+    console.log("Arrancamos el metodo")
+    let claseDeUsuario = "SinClase";
     claseDeUsuario = usuario.clasesInscriptas.find(IDclaseInscripta => IDclaseInscripta == idClase)
-    if(claseDeUsuario != -1) {
+    if(usuario.clasesInscriptas.length > 0 && claseDeUsuario != "SinClase") {
+        console.log("El usuario tiene al menos una clase inscripta")
      //Si el id de la clase existe, entonces procedo y busco la clase
-     const clases = this.modelClases.obtenerClases();
+     const clases = await this.modelClases.obtenerClases();
      const clase = clases.find(c=> c.id == idClase)
      usuario.clasesInscriptas.splice(clase._id,1)
      //a la clase le resto un inscripto
      clase.anotados--
-     res.status(200).json({message:'bien'})
+     this.modelClases.actualizarClase(clase._id, clase)
+     this.model.actualizarUsuario(usuario._id, usuario)
+     console.log("Se actualizo todo ok")
+     return usuario;
      
 
     } else {
