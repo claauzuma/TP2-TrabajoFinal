@@ -4,9 +4,9 @@ export const validarRutina = rutina => {
 
     const rutinaSchema = Joi.object({
 
-        descripcion: Joi.string().alphanum().required(),
+        descripcion: Joi.string().regex(/^[a-zA-Z0-9 ]+$/).required(),
         nombreAlumno: Joi.string().alphanum().required(),
-        dniAlumno: Joi.string().alphanum().required(),
+        dniAlumno: Joi.string().regex(/^[a-zA-Z0-9 ]+$/).required(),
         nivel: Joi.string().alphanum().required(),
        
     });
