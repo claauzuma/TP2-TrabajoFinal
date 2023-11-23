@@ -10,7 +10,7 @@ class Router {
     }
 
     start() {
-        this.router.get('/', this.controladorRutinas.obtenerRutinas)
+        this.router.get('/:id?', this.controladorRutinas.obtenerRutinas)
 
         this.router.post('/agregar', this.controladorRutinas.agregarRutina)
 
