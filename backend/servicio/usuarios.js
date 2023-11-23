@@ -51,13 +51,14 @@ class Servicio {
 
     
     obtenerInscriptos = async idClase => {
-        const alumnos = this.obtenerAlumnos()
+        const alumnos = await this.obtenerAlumnos()
         const inscriptos = [] ;
         
-        alumnos.array.forEach(alumno => {
+        alumnos.forEach(alumno => {
 
-            claseExistente = alumno.clasesInscriptas.find(idClase)
+            const claseExistente = alumno.clasesInscriptas.find(c => c == idClase)
             if(claseExistente != null) {
+                console.log("Se pusheo al alumno " + alumno.nombre)
                 inscriptos.push(alumno)
             }
               
@@ -138,27 +139,52 @@ class Servicio {
 
     inscribirAClase = async (idClase, usuario) => {
 
-       const claseDeUsuario = -1;
-       claseDeUsuario = usuario.clasesInscriptas.find(IDclaseInscripta => IDclaseInscripta == idClase)
-       if(claseDeUsuario == -1) {
-        //busco la clase
-        const clases = this.modelClases.obtenerClases();
-        const clase = clases.find(c=> c.id == idClase)
+        console.log(usuario.nombre)
+        console.log(usuario.clasesInscriptas.length)
 
-        if(clase.anotados < clase.capacidad) {
-        usuario.clasesInscriptas.push(clase._id)
-        clase.anotados++
-        res.status(200).json({message:'bien'})
+        let claseDeUsuario = "sinClase"
+        if (usuario.clasesInscriptas.length > 0) {
+
+            //si el usuario esta inscripto a alguna clase, nos fijamos si la tiene repetida
+            claseDeUsuario = usuario.clasesInscriptas.find(IDclaseInscripta => IDclaseInscripta == idClase)
+            console.log(claseDeUsuario)
+            if (claseDeUsuario == "sinClase") {
+                console.log("Perfecto, el usuario no esta inscripto a esa clase")
+            }
+            else {
+                throw new Error('Error, el alumno ya esta inscripto a dicha clase')
+            }
+
+        }
+        //el usuario no esta inscripto a clases o no la tiene en sus clases inscriptas
+        console.log("El usuario puede inscribirse a la clase , asi que procedemos a buscar la clase")
+
+        const clases = await this.modelClases.obtenerClases();
+        const clase = clases.find(c => c._id == idClase)
+        console.log(clase.anotados + " " + clase.capacidad)
+
+        if (clase.anotados < clase.capacidad) {
+            console.log("Hay capacidad, perfecto")
+            console.log("Hay " + clase.anotados + " anotados")
+            usuario.clasesInscriptas.push(clase._id)
+            clase.anotados++
+
+            //Actualizamos clase y usuario, para que se refleje en la base de datos
+           this.modelClases.actualizarClase(clase._id, clase)
+           this.model.actualizarUsuario(usuario._id, usuario)
+
+            console.log("Agregamos la clase a la lista y hay mas anotados en la clase " + clase.anotados)
+            return usuario;
         }
         else {
             throw new Error('Error en capacidad de clase')
 
         }
 
-       } else {
-        throw new Error('Error, el alumno ya esta inscripto a dicha clase')
+
+
+
     }
-}
 
     desuscribirseDeClase = async (idClase, usuario) => {
 
