@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-    const validarAlumno = alumno => {
+export const validarAlumno = alumno => {
 
     const alumnoSchema = Joi.object({
         nombre: Joi.string().alphanum().required(),
@@ -8,7 +8,7 @@ import Joi from 'joi'
         dni: Joi.string().alphanum().required(),
         email: Joi.string().email().required(), 
         contraseña: Joi.string().alphanum().required(),
-        ingreso: Joi.date().required(),
+        ingreso: Joi.string().alphanum().required(),
         plan: Joi.string().alphanum().required(),
       
     });
@@ -24,5 +24,3 @@ import Joi from 'joi'
 
 
 }
-
-export { validarAlumno };
