@@ -1,5 +1,7 @@
 //import ModelMem from '../model/DAO/productosMem.js'
 //import ModelFile from '../model/DAO/productosFile.js'
+import jsonwebtoken from 'jsonwebtoken';
+
 
 import ModelFactoryUsuarios from "../model/DAO/usuariosFactory.js"
 import ModelFactoryRutinas from "../model/DAO/rutinasFactory.js"
