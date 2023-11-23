@@ -7,12 +7,15 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-gen-alumno": "mocha test/alumnos.test.js --timeout 10000",
+    "test-api-int": "mocha test/api-int.test.js --timeout 10000"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^8.3.1",
     "axios": "^1.6.2",
     "chai": "^4.3.10",
     "cors": "^2.8.5",
