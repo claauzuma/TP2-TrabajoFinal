@@ -5,6 +5,7 @@ import ModelFactoryUsuarios from "../model/DAO/usuariosFactory.js"
 import ModelFactoryRutinas from "../model/DAO/rutinasFactory.js"
 import ModelFactoryClases from "../model/DAO/clasesFactory.js"
 
+
 import { validarAlumno } from "./validaciones/alumnos.js"
 import { validarProfesor } from "./validaciones/profesores.js"
 
