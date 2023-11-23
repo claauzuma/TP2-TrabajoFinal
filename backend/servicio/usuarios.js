@@ -80,7 +80,7 @@ class Servicio {
             }, 'clave_secreta')
             return { token: token }
         } else {
-            res.status(401).json({ message: 'error' })
+            return { message: 'error' }
         }
 
 
