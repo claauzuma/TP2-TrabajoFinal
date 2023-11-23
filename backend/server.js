@@ -34,6 +34,7 @@ class Server {
     this.server = this.app.listen(PORT, () => console.log(`Servidor express escuchando en http://localhost:${PORT}`))
     this.server.on('error', error => console.log(`Error en servidor: ${error.message}`))
   
+    return this.app
   }
 
   async stop(){

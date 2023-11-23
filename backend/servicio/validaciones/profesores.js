@@ -3,11 +3,11 @@ import Joi from 'joi'
 export const validarProfesor = profesor => {
 
     const profesorSchema = Joi.object({
-        nombre: Joi.string().alphanum().required(),
-        apellido: Joi.string().alphanum().required(),
-        dni: Joi.string().alphanum().required(),
+        nombre: Joi.string().regex(/^[a-zA-Z0-9 ]+$/).required(),
+        apellido: Joi.string().regex(/^[a-zA-Z0-9 ]+$/).required(),
+        dni: Joi.string().regex(/^[a-zA-Z0-9 ]+$/).required(),
         email: Joi.string().email().required(), 
-        contraseña: Joi.string().alphanum().required()
+        contraseña: Joi.string().regex(/^[a-zA-Z0-9 ]+$/).required(),
    
     });
     
