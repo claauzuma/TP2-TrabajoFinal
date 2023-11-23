@@ -24,13 +24,13 @@ class Servicio {
             const res = validarRutina(rutina)
             if (res.result) {
                 const usuarios = await this.modelUsuarios.obtenerUsuarios()
-                const alumnoExistente = usuarios.find(a => a.rol == "alumno" && a.nombre == rutina.nombreAlumno && a.dni == rutina.dniAlumno)
-                const alumnoConRutina = alumnoExistente.tieneRutina
-                if (alumnoExistente != null && !alumnoConRutina) {
+                const alumnoExistente = {}
+                alumnoExistente = usuarios.find(a => a.rol == "alumno" && a.nombre == rutina.nombreAlumno && a.dni == rutina.dniAlumno)
+                if (alumnoExistente != null && !alumnoConRutina.tieneRutina) {
                     const rutinaAgregada = await this.model.guardarRutina(rutina)
-                    alumnoExistente.rutina = rutina.descripcion
+                    alumnoExistente.rutina = rutina.descripcion;
                     alumnoExistente.tieneRutina = true;
-                    console.log("Se guardo correctamente la rutina del alumno  "+alumnoExistente.nombre)
+                    this.modelUsuarios.actualizarUsuario(alumnoExistente._id,alumnoExistente);
                     return rutinaAgregada
 
                 }
@@ -71,6 +71,7 @@ class Servicio {
         if (alumnoBuscado != null) {
            alumnoBuscado.rutina =""
            alumnoBuscado.tieneRutina = false;
+           this.modelUsuarios.actualizarUsuario(alumnoBuscado._id,alumnoBuscado);
         }
         const rutinaBorrada = await this.model.borrarRutina(id)
 
