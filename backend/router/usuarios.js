@@ -1,7 +1,5 @@
 import express from 'express'
 import ControladorUsuarios from '../controlador/usuarios.js'
-import ControladorClases from '../controlador/clases.js'
-import ControladorRutinas from '../controlador/rutinas.js'
 import ControladorNutritionix from '../controlador/nutritionixAPI.js';
 
 
@@ -17,8 +15,8 @@ class Router {
     start() {
       
 
-        this.router.get('/profesores', this.controladorUsuarios.obtenerProfes)
-        this.router.get('/alumnos', this.controladorUsuarios.obtenerAlumnos)
+        this.router.get('/profesores/:id?', this.controladorUsuarios.obtenerProfes)
+        this.router.get('/alumnos/:id?', this.controladorUsuarios.obtenerAlumnos)
         this.router.get('/admin/clases/:id', this.controladorUsuarios.obtenerInscriptos)
 
         this.router.post('/login', this.controladorUsuarios.logearUsuario)
