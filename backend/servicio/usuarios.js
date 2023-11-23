@@ -78,9 +78,9 @@ class Servicio {
                 email: userDb.email, rol: userDb.rol, plan: userDb.plan,
                 id: userDb.id
             }, 'clave_secreta')
-            res.json({ token: token })
+            return { token: token }
         } else {
-            res.status(401).json({ message: 'error' })
+            return { message: 'error' }
         }
 
 
