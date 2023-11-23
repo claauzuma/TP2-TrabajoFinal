@@ -213,7 +213,7 @@ class Servicio {
             const rutinas = this.modelRutinas.obtenerRutinas()
             const rutinaABorrar = rutinas.find(r => r.nombreAlumno == usuarioBorrado.nombre && r.dniAlumno == usuarioBorrado.dni)
             if(rutinaABorrar != null) {
-                await this.modelRutinas.borrarRutina(rutinaABorrar)
+                await this.modelRutinas.borrarRutina(rutinaABorrar._id)
             }    
         }
          return usuarioBorrado
