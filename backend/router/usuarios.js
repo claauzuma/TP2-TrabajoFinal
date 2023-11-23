@@ -28,6 +28,8 @@ class Router {
         this.router.post('/calorias', this.controladorNutritionix.obtenerEjercicio);
 
         this.router.put('/:id', this.controladorUsuarios.modificarUsuario)
+        this.router.put('/email', this.controladorUsuarios.modificarEmail)
+        this.router.put('/contraseña', this.controladorUsuarios.modificarContraseña)
 
         this.router.delete('/clases/desuscribir/:id', this.controladorUsuarios.desuscribirseDeClase)
         this.router.delete('/:id', this.controladorUsuarios.borrarUsuario)

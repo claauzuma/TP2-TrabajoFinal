@@ -36,6 +36,7 @@ class ModelMongoDB {
         return usuariosActualizado
     }
 
+
     borrarUsuario = async id => {
         if(!CnxMongoDB.connection) return {}
 

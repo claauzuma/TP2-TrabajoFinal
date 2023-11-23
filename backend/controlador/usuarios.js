@@ -101,6 +101,21 @@ class ControladorUsuarios {
         res.json(usuarioModificado)
     }
 
+    modificarEmail = async (req,res) => {
+        const { id } = req.params
+        const arrayEmailContraseña = req.body
+        const usuarioActualizado = await this.servicio.modificarEmail(id, arrayEmailContraseña)
+        res.json(usuarioActualizado)
+    }
+
+    modificarContraseña = async (req,res) => {
+        const { id } = req.params
+        const arrayContraContra = req.body
+        const usuarioActualizado = await this.servicio.modificarContraseña(id, arrayContraContra)
+        res.json(usuarioActualizado)
+    }
+
+
 
     borrarUsuario = async (req,res) => {
         const { id } = req.params

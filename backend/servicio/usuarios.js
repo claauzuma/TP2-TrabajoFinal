@@ -161,6 +161,38 @@ class Servicio {
         return usuarioActualizado
     }
 
+    modificarEmail = async (id, array) => {
+        const nuevoEmail = array[0]
+        const contraseñaAComparar = array[1]
+        const usuario = this.model.obtenerUsuarios(id)
+        const contraseñaCorrecta = usuario.contraseña == contraseñaAComparar
+        if (contraseñaCorrecta) {
+            usuario.email = nuevoEmail
+            return usuario
+
+        }
+        else {
+            return {}
+        }
+
+    }
+
+    modificarContraseña = async (id, array) => {
+        const nuevaContraseña = array[0]
+        const contraseñaAComparar = array[1]
+        const usuario = this.model.obtenerUsuarios(id)
+        const contraseñaCorrecta = usuario.contraseña == contraseñaAComparar
+        if (contraseñaCorrecta) {
+            usuario.contraseña = nuevaContraseña
+            return usuario
+
+        }
+        else {
+            return {}
+        }
+
+    }
+
     borrarUsuario = async id => {
         const usuarioBorrado = await this.model.borrarUsuario(id)
         if(usuarioBorrado.rol == "alumno" && usuarioBorrado.tieneRutina) {
