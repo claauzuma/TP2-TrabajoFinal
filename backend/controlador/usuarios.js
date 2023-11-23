@@ -6,6 +6,8 @@ class ControladorUsuarios {
         this.servicio = new Servicio(persistencia)
     }
 
+    
+
     obtenerProfes = async (req,res) => {
         const { id } = req.params
         const profes = await this.servicio.obtenerProfes(id)

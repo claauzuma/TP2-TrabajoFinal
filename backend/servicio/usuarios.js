@@ -19,20 +19,34 @@ class Servicio {
     }
 
     obtenerUsuarios = async id => {
-        const usuarios = await this.model.obtenerUsuarios(id)
-        return usuarios
+        if (id) {	
+        return await this.model.obtenerUsuarios(id)
+        } else{
+            const usuarios = await this.model.obtenerUsuarios(id)
+            return usuarios
+        }
     }   
 
     obtenerProfes = async id => {
-        const usuarios = await this.model.obtenerUsuarios(id)
-        const profes = usuarios.filter(u => u.rol =="profe")
-        return profes
+        if (id) {	
+            return await this.model.obtenerUsuarios(id)
+        } else {
+            const usuarios = await this.model.obtenerUsuarios(id)
+            const profes = usuarios.filter(u => u.rol =="profe")
+            return profes
+        }
+        
     }   
 
     obtenerAlumnos = async id => {
-        const usuarios = await this.model.obtenerUsuarios(id)
-        const alumnos = usuarios.filter(u => u.rol =="alumno")
-        return alumnos
+        if (id) {	
+        return await this.model.obtenerUsuarios(id)
+        } else {
+            const usuarios = await this.model.obtenerUsuarios(id)
+            const alumnos = usuarios.filter(u => u.rol =="alumno")
+            return alumnos
+        }
+        
     }   
 
     
@@ -196,15 +210,13 @@ class Servicio {
     borrarUsuario = async id => {
         const usuarioBorrado = await this.model.borrarUsuario(id)
         if(usuarioBorrado.rol == "alumno" && usuarioBorrado.tieneRutina) {
-        const rutinas = this.modelRutinas.obtenerRutinas()
-        const rutinaABorrar = rutinas.find(r => r.nombreAlumno == usuarioBorrado.nombre && r.dniAlumno == usuarioBorrado.dni)
-        if(rutinaABorrar != null) {
-        this.modelRutinas.borrarRutina(rutinaABorrar)
+            const rutinas = this.modelRutinas.obtenerRutinas()
+            const rutinaABorrar = rutinas.find(r => r.nombreAlumno == usuarioBorrado.nombre && r.dniAlumno == usuarioBorrado.dni)
+            if(rutinaABorrar != null) {
+                await this.modelRutinas.borrarRutina(rutinaABorrar)
+            }    
         }
-
-        }
-
-        return usuarioBorrado
+         return usuarioBorrado
     }
 }
 

@@ -17,7 +17,6 @@ class Router {
 
         this.router.delete('/:id', this.controladorClases.borrarClase)
 
-
         return this.router
     }
 }
