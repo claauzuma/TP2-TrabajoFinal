@@ -169,7 +169,7 @@ class Servicio {
             clase.anotados++
 
             //Actualizamos clase y usuario, para que se refleje en la base de datos
-           this.modelClases.actualizarClase(clase._id, clase)
+           this.modelClases.actualizarClase(idClase, clase)
            this.model.actualizarUsuario(usuario._id, usuario)
 
             console.log("Agregamos la clase a la lista y hay mas anotados en la clase " + clase.anotados)

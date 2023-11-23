@@ -8,7 +8,7 @@ export const validarAlumno = alumno => {
         dni: Joi.string().alphanum().required(),
         email: Joi.string().email().required(), 
         contraseña: Joi.string().alphanum().required(),
-        ingreso: Joi.string().alphanum().required(),
+        ingreso: Joi.date().required(),
         plan: Joi.string().alphanum().required(),
       
     });
