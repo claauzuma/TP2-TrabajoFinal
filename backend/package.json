@@ -7,7 +7,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-gen-alumno": "mocha test/alumnos.test.js --timeout 10000",
+    "test-api-int": "mocha test/api-int.test.js --timeout 10000"
   },
   "keywords": [],
   "author": "",

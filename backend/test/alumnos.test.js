@@ -3,7 +3,7 @@ import { generarAlumno } from './generador/alumnos.js';
 import { validarAlumno } from '../servicio/validaciones/alumnos.js';
 
 describe('***** Test del generador de alumno *****', () => {
-  it('el alumno debe contener los campos requeridos y cumplir con las validaciones', () => {
+  it('el alumno debe contener los campos requeridos y cumplir con las validaciones (CASO NO FELIZ)', () => {
     const alumno = generarAlumno();
     console.log(alumno);
 
@@ -11,7 +11,7 @@ describe('***** Test del generador de alumno *****', () => {
     expect(error).to.be.undefined;
   });
 
-  it('debería generar alumnos aleatorios', () => {
+  it('debería generar alumnos aleatorios (CASO FELIZ)', () => {
     const alumno1 = generarAlumno();
     const alumno2 = generarAlumno();
     console.log(alumno1);
