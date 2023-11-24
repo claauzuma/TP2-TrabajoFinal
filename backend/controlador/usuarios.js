@@ -107,15 +107,15 @@ class ControladorUsuarios {
 
     modificarEmail = async (req,res) => {
         const { id } = req.params
-        const arrayEmailContraseña = req.body
-        const usuarioActualizado = await this.servicio.modificarEmail(id, arrayEmailContraseña)
+        const objeto = req.body
+        const usuarioActualizado = await this.servicio.modificarEmail(id, objeto)
         res.json(usuarioActualizado)
     }
 
     modificarContraseña = async (req,res) => {
         const { id } = req.params
-        const arrayContraContra = req.body
-        const usuarioActualizado = await this.servicio.modificarContraseña(id, arrayContraContra)
+        const objeto = req.body
+        const usuarioActualizado = await this.servicio.modificarContraseña(id, objeto)
         res.json(usuarioActualizado)
     }
 

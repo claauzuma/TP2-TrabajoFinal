@@ -217,13 +217,16 @@ class Servicio {
         return usuarioActualizado
     }
 
-    modificarEmail = async (id, array) => {
-        const nuevoEmail = array[0]
-        const contraseñaAComparar = array[1]
-        const usuario = this.model.obtenerUsuarios(id)
+    modificarEmail = async (id, objeto) => {
+        console.log(objeto.nuevoEmail)
+        console.log(objeto.nuevaContraseña)
+        const nuevoEmail = objeto.nuevoEmail
+        const contraseñaAComparar = objeto.contraseña
+        const usuario = await this.model.obtenerUsuarios(id)
         const contraseñaCorrecta = usuario.contraseña == contraseñaAComparar
         if (contraseñaCorrecta) {
             usuario.email = nuevoEmail
+            this.model.actualizarUsuario(usuario._id,usuario)
             return usuario
 
         }
@@ -233,13 +236,13 @@ class Servicio {
 
     }
 
-    modificarContraseña = async (id, array) => {
-        const nuevaContraseña = array[0]
-        const contraseñaAComparar = array[1]
-        const usuario = this.model.obtenerUsuarios(id)
+    modificarContraseña = async (id, objeto) => {
+        const contraNueva = objeto.nuevaContraseña
+        const contraseñaAComparar = objeto.contraseña
+        const usuario = await this.model.obtenerUsuarios(id)
         const contraseñaCorrecta = usuario.contraseña == contraseñaAComparar
         if (contraseñaCorrecta) {
-            usuario.contraseña = nuevaContraseña
+            usuario.contraseña = contraNueva
             return usuario
 
         }
